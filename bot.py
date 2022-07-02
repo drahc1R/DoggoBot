@@ -7,6 +7,8 @@ from discord import guild
 from discord.ext import commands, tasks
 from discord.utils import get
 from itertools import cycle
+from dotenv import load_dotenv
+load_dotenv()
 # os.chdir("C:\\Users\\richardbann\\Documents\\PycharmProjects\\doggobot2021")
 
 intents = discord.Intents.default()
@@ -14,6 +16,8 @@ intents.typing = False
 intents.presences = False
 intents.members = True
 
+
+token = os.getenv("BOT_TOKEN")
 
 def get_prefix(bot, message):
     with open('prefixes.json', 'r') as f:
@@ -257,4 +261,4 @@ async def change_status():
     await bot.change_presence(activity=discord.Game(next(status)))
 
 
-bot.run('OTIwMzk4Mzg2NTE0MDAxOTkx.G7SgXD.hNxEn1WGK5xJXKb2OOGGqlAPPz5Mop4h-xfypc')
+bot.run(token)
