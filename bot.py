@@ -257,4 +257,4 @@ async def change_status():
     await bot.change_presence(activity=discord.Game(next(status)))
 
 
-bot.run('OTIwMzk4Mzg2NTE0MDAxOTkx.Ybjxyw.Gy0GHxScnvSYWd23XiFe-p92LS8')
+bot.run('OTIwMzk4Mzg2NTE0MDAxOTkx.G7SgXD.hNxEn1WGK5xJXKb2OOGGqlAPPz5Mop4h-xfypc')
