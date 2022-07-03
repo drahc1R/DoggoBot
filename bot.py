@@ -1,3 +1,4 @@
+from http import client
 import discord
 import random
 import re
@@ -16,16 +17,22 @@ intents.typing = False
 intents.presences = False
 intents.members = True
 
-
 token = os.getenv("BOT_TOKEN")
 
-def get_prefix(bot, message):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
+prefix = "!"
+prefixes = {}
+guildIDs = []
 
-    return prefixes[str(message.guild.id)]
+def get_prefix(bot, message):
+    for guildID in guildIDs:
+        return guildID
+    # with open('/Users/richardbann/Documents/GitHub/DoggoBot/prefixes.json', 'r') as f:
+    #     prefixes = json.load(f)
+
+    # return prefixes[str(message.guild.id)]
 
 bot = commands.Bot(command_prefix=get_prefix, intents=intents)
+
 
 status = cycle(['flippin doggo coins', 'with doggo coins', 'generating more doggo coins', 'eating doggo coins', 'throwing doggo coins', 'cs?', 'Minecraft'])
 
@@ -42,7 +49,7 @@ async def reload(ctx, extension):
     bot.unload_extension(f'cogs.{extension}')
     bot.load_extension(f'cogs.{extension}')
 
-for filename in os.listdir('./cogs'):
+for filename in os.listdir('/Users/richardbann/Documents/GitHub/DoggoBot/cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print("commands loaded")
@@ -81,45 +88,50 @@ for filename in os.listdir('./cogs'):
 #         users = json.load(f)
 #     return users
 
-
-
-
-
-
-
-
-
-
-
-
 #BOT EVENTS
+
+guildPrefixes = []
 
 @bot.event
 async def on_ready():
     change_status.start()
     #bot.remove_command("help")
     print('Bot is online.')
-
-
+    if len(bot.guilds) == 0:
+        print('empty')
+    else:
+        for i, g in enumerate(bot.guilds):
+            print(bot.guild.id)
+            #guildIDs[i] = guild.id
+        
 @bot.event
 async def on_guild_join(guild):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes[str(guild.id)] = '!'
-
-    with open('prefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
+    if guild not in guildIDs:
+        guildIDs.append(guild.id)
 
 @bot.event
 async def on_guild_remove(guild):
-    with open('prefixes.json', 'r') as f:
-        prefixes = json.load(f)
+    guildIDs.remove(guild.id)
 
-    prefixes.pop(str(guild.id))
+# @bot.event
+# async def on_guild_join(guild):
+#     with open('prefixes.json', 'r') as f:
+#         prefixes = json.load(f)
 
-    with open('prefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
+#     prefixes[str(guild.id)] = '!'
+
+#     with open('prefixes.json', 'w') as f:
+#         json.dump(prefixes, f, indent=4)
+
+# @bot.event
+# async def on_guild_remove(guild):
+#     with open('prefixes.json', 'r') as f:
+#         prefixes = json.load(f)
+
+#     prefixes.pop(str(guild.id))
+
+#     with open('prefixes.json', 'w') as f:
+#         json.dump(prefixes, f, indent=4)
 
 
 @bot.event
