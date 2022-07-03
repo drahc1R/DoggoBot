@@ -23,16 +23,18 @@ prefix = "!"
 prefixes = {}
 guildIDs = []
 
-def get_prefix(bot, message):
-    for guildID in guildIDs:
-        return guildID
-    # with open('/Users/richardbann/Documents/GitHub/DoggoBot/prefixes.json', 'r') as f:
-    #     prefixes = json.load(f)
+#just gives a prefix for a guild to use
+# def get_prefix(bot, message):
+#     for guildID in guildIDs:
+#         return guildID
+#     # with open('/Users/richardbann/Documents/GitHub/DoggoBot/prefixes.json', 'r') as f:
+#     #     prefixes = json.load(f)
 
-    # return prefixes[str(message.guild.id)]
+#     # return prefixes[str(message.guild.id)]
 
-bot = commands.Bot(command_prefix=get_prefix, intents=intents)
+# bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 status = cycle(['flippin doggo coins', 'with doggo coins', 'generating more doggo coins', 'eating doggo coins', 'throwing doggo coins', 'cs?', 'Minecraft'])
 
@@ -49,8 +51,9 @@ async def reload(ctx, extension):
     bot.unload_extension(f'cogs.{extension}')
     bot.load_extension(f'cogs.{extension}')
 
-for filename in os.listdir('/Users/richardbann/Documents/GitHub/DoggoBot/cogs'):
+for filename in os.listdir('cogs'):
     if filename.endswith('.py'):
+        print(filename)
         bot.load_extension(f'cogs.{filename[:-3]}')
         print("commands loaded")
 
