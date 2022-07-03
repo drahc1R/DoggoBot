@@ -100,21 +100,22 @@ async def on_ready():
     change_status.start()
     #bot.remove_command("help")
     print('Bot is online.')
-    if len(bot.guilds) == 0:
-        print('empty')
-    else:
-        for i, g in enumerate(bot.guilds):
-            print(bot.guild.id)
+    # if len(bot.guilds) == 0:
+    #     print('empty')
+    # else:
+    #     for i, g in enumerate(bot.guilds):
+    #         await ctx.send("ID: {}".format(ctx.guild.id))
+            # print(ctx.guild.id)
             #guildIDs[i] = guild.id
         
 @bot.event
 async def on_guild_join(guild):
-    if guild not in guildIDs:
-        guildIDs.append(guild.id)
+    if discord.Guild.id not in guildIDs:
+        guildIDs.append(discord.Guild.id)
 
 @bot.event
 async def on_guild_remove(guild):
-    guildIDs.remove(guild.id)
+    guildIDs.remove(discord.Guild.id)
 
 # @bot.event
 # async def on_guild_join(guild):
