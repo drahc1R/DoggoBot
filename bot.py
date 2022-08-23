@@ -120,9 +120,9 @@ async def connect_nodes():
     await bot.wait_until_ready()
     await wavelink.NodePool.create_node(
         bot=bot,
-        host='lavalink-replit.priyam37yt.repl.co',
-        port=443,
-        password='maybeiwasboring',
+        host=194.156.79.56,
+        port=8313,
+        password='Dionyan~',
     )
 
         
