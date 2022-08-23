@@ -1,9 +1,9 @@
 server: # REST and WS server
   port: 443
-  address: node1.kartadharta.xyz
+  address: node1.gglvxd.tk
 lavalink:
   server:
-    password: 'kdlavalink'
+    password: 'free'
     sources:
       youtube: true
       bandcamp: true
