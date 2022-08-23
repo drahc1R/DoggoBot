@@ -356,7 +356,7 @@ async def connect(ctx):
     if not vc:
         await ctx.author.voice.channel.connect(cls=CustomPlayer())
     else:
-        await ctx.send("The bot is already connected to a voice channel")
+        await ctx.send("I\'m already connected to a voice channel :angry:")
 
 
 @bot.command()
@@ -365,7 +365,7 @@ async def disconnect(ctx):
     if vc:
         await vc.disconnect()
     else:
-        await ctx.send("The bot is not connected to a voice channel.")
+        await ctx.send("I\'m not connected to a voice channel :angry:")
 
 
 @bot.command()
@@ -409,7 +409,7 @@ async def skip(ctx):
         if vc.is_paused():
             await vc.resume()
     else:
-        await ctx.send("The bot is not connected to a voice channel.")
+        await ctx.send("I\'m not connected to a voice channel :angry:")
 
 
 @bot.command()
@@ -421,7 +421,7 @@ async def pause(ctx):
         else:
             await ctx.send("Nothing is playing.")
     else:
-        await ctx.send("The bot is not connected to a voice channel")
+        await ctx.send("I\'m not connected to a voice channel :angry:")
 
 
 @bot.command()
@@ -433,7 +433,7 @@ async def resume(ctx):
         else:
             await ctx.send("Nothing is paused.")
     else:
-        await ctx.send("The bot is not connected to a voice channel")
+        await ctx.send("I\'m not connected to a voice channel :angry:")
 
 
 # error handling
@@ -443,6 +443,7 @@ async def play_error(ctx, error):
     if isinstance(error, commands.BadArgument):
         await ctx.send("Could not find a track.")
     else:
+        await ctx.send(error)
         await ctx.send("Please join a voice channel.")
 
 bot.run(token)
