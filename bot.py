@@ -50,23 +50,22 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 bot.remove_command("help")
 status = cycle(['flippin doggo coins', 'with doggo coins', 'generating more doggo coins', 'eating doggo coins', 'throwing doggo coins', 'cs?', 'Minecraft'])
 
-@bot.command
-async def load(ctx, extension):
-    bot.load_extension(f'cogs.{extension}')
+# @bot.command
+# def load(ctx, extension):
+#     bot.load_extension(f'cogs.{extension}')
 
-@bot.command
-async def unload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
+# @bot.command
+# def unload(ctx, extension):
+#     bot.unload_extension(f'cogs.{extension}')
 
-@bot.command
-async def reload(ctx, extension):
-    bot.unload_extension(f'cogs.{extension}')
-    bot.load_extension(f'cogs.{extension}')
+# @bot.command
+# def reload(ctx, extension):
+#     bot.unload_extension(f'cogs.{extension}')
+#     bot.load_extension(f'cogs.{extension}')
 
 for filename in os.listdir('cogs'):
     if filename.endswith('.py'):
-        print(filename)
-        bot.load_extension(f'cogs.{filename[:-3]}')
+        bot.load_extension(f"cogs.{filename[:-3]}")
         print("commands loaded")
 
 # scheduler = AsyncIOScheduler()
