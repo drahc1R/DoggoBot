@@ -1,10 +1,24 @@
+from time import time
+import time
 import discord
 import random
 from discord.ext import commands
 from discord.utils import get
 import json
 import asyncio
+from discord import Embed
+import datetime
+from datetime import datetime, timedelta
+from random import choice
 
+from discord import Embed
+from discord.ext.commands import Cog
+from discord.ext.commands import command, has_permissions
+from collections import Counter
+
+
+numbers = ("1️⃣", "2⃣", "3⃣", "4⃣", "5⃣",
+		   "6⃣", "7⃣", "8⃣", "9⃣", "🔟")
 
 class DurationConverter(commands.Converter):
     async def convert(self, ctx, argument):
@@ -20,6 +34,8 @@ class Commands(commands.Cog):
 
     def __init__(self, bot):
             self.bot = bot
+            self.polls = []
+            
 
   #  @commands.group(invoke_without_command=True)
    # async def help(ctx):
@@ -32,10 +48,10 @@ class Commands(commands.Cog):
 
 #add bite command
 
-    @commands.command(alisases=["russian roulette"])
+    @commands.command(aliases=["roll"])
     async def roulette(self, ctx):
 
-        responses = ["click", "click", "click", "click", "click", "BANG"]
+        responses = ["click", "click", "click", "click", "click", "BANG :skull:"]
 
         random_response = random.choice(responses)
 
@@ -46,6 +62,59 @@ class Commands(commands.Cog):
             await ctx.send("Click")
 
 
+    @commands.command(name="poll", aliases=["createpoll"])
+    async def create_poll(self, ctx, hours: int, question, *options):
+        
+        if len(options) > 10:
+            await ctx.send("You can only have 10 options.")
+
+        else:
+            embed = Embed(title="Poll",
+                            description=question,
+                            colour=ctx.author.colour,
+                            timestamp=datetime.utcnow())
+
+            fields = [("Options", "\n".join([f"{numbers[idx]} {option}" for idx, option in enumerate(options)]), False),
+                        ("Instructions", "React to cast a vote!", False)]
+
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
+
+            message = await ctx.send(embed=embed)
+
+            for emoji in numbers[:len(options)]:
+                await message.add_reaction(emoji)
+
+            self.polls.append((message.channel.id, message.id))
+
+            mid = message.id
+            cid = message.channel.id
+
+            time.sleep(hours)
+     
+            message = await self.bot.get_channel(cid).fetch_message(mid)
+
+            most_voted = max(message.reactions, key=lambda r: r.count)
+            podium = {}
+
+            for reaction in message.reactions:
+                podium[reaction] = reaction.count
+
+            # podium.sort(reverse=True)
+            # podium = podium[:3]
+
+            res = f"\n Results: "
+            
+            await message.channel.send(f"Option {most_voted.emoji} won with {most_voted.count-1:,} vote(s)! ggs all around :D")
+
+            for x, y in podium.items():
+                res = res + (f"{x.emoji} : ||{y} vote(s)|| ")
+
+            await message.channel.send(res)
+
+            
+            self.polls.remove((message.channel.id, message.id))
+    
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
@@ -180,6 +249,15 @@ class Commands(commands.Cog):
         embed.add_field(name="Member Count", value=memberCount, inline=True)
 
         await ctx.send(embed=embed)
+
+    @Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        if payload.message_id in (poll[1] for poll in self.polls):
+            message = await self.bot.get_channel(payload.channel_id).fetch_message(payload.message_id)
+            
+            for reaction in message.reactions:
+                if not payload.member.bot and payload.member in await reaction.users().flatten() and reaction.emoji != payload.emoji.name:
+                    await message.remove_reaction(reaction.emoji, payload.member)
 
 
 

@@ -8,6 +8,8 @@ from discord import guild
 from discord.ext import commands, tasks
 from discord.utils import get
 from itertools import cycle
+# from apscheduler.schedulers.asyncio import AsyncIOScheduler
+# from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
 load_dotenv()
 # os.chdir("C:\\Users\\richardbann\\Documents\\PycharmProjects\\doggobot2021")
@@ -57,7 +59,7 @@ for filename in os.listdir('cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         print("commands loaded")
 
-
+# scheduler = AsyncIOScheduler()
 #Bank System
 
 # @bot.command
@@ -141,7 +143,7 @@ async def on_guild_remove(guild):
 @bot.event
 async def on_member_join(member):
     print(f'{member} has joined a server.')
-    welcome_channel = bot.get_channel(833525136116154431)
+    welcome_channel = bot.get_channel(418548855408295940)
     welc = ['just sheeeshed in :cold_face:',
             f"just crashed the party! Party\'s over everyone! :moyai:",
             'has joined the party! Always room for more bait :eyes:'
@@ -152,7 +154,7 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     print(f'{member} has left a server.')
-    welcome_channel = bot.get_channel(833525136116154431)
+    welcome_channel = bot.get_channel(418548855408295940)
     print("Recognized that " + member.name + " left")
     left = ['has scrammed :person_in_manual_wheelchair:',
             'has left the server :ThinkNoose:',
@@ -163,7 +165,7 @@ async def on_member_remove(member):
     salut = ['So long, and thanks for all the fish.',
              'That\'s all folks!',
              '"Yabba Dabba Do!',
-             'Mais um fraco saiu :ninja:',
+                 'Mais um fraco saiu :ninja:',
              'And that\'s a wrap']
     await welcome_channel.send(f"\n{random.choice(salut)}")
 
@@ -179,22 +181,45 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_message(message):
-    if message.content.find("cs?") != -1:
-        await message.channel.send("<@" + str(340848834479390731) + ">")
-        await message.channel.send("<@" + str(388397664229916684) + ">")
-        await message.channel.send("<@" + str(285022682209058827) + ">")
-        await message.channel.send("<@" + str(239453836513771531) + ">")
-        await message.channel.send("<@" + str(339920949661007873) + ">")
-        await message.channel.send("<@" + str(339925689027526656) + ">")
+    cs = ['Let\'s make this right as rain :cloud_rain:',
+            'Let\'s go, fellas :ThinkNoose:',
+            'Remove any doubts in your head; it\'s us, or them. :dizzy_face:',
+            'Remember! This isn\'t the killing house anymore! This is real life. :wastebasket:',
+            'Watch out. These boys have got a bit of an arsenal and they don\'t mind using it! :wastebasket:',
+            'Let\'s have it, lads! :mechanical_arm:',
+            'Let\'s give it to them, boys! :farmer:',
+            'Let\'s show them who we are! :farmer:',
+            'Are we rushing in? Or are we going sneaky-beaky like? :military_helmet:',
+            'For Queen and country, men! :military_helmet:',
+            "Remember! This is bandit country. Shoot everything that moves. :hammer_pick:",
+            "Gear up! We're going in! :gear:",
+            "Right lads, we're on. :military_helmet:",
+            "These fellas are gonna regret waking up this morning. :coffin:",
+            "They're gonna wish they were never born. :ninja:",
+            "Let's have at it, mates! :military_helmet:",
+            "Gear up; We aren't going on a windy walk here! :ninja:",
+            "Bingo, bango, bongo; bish, bash, bosh. :chicken:"]
+    # if message.content.find("cs?") != -1:
+    #     await message.channel.send("<@" + str(340848834479390731) + ">")
+    #     await message.channel.send("<@" + str(388397664229916684) + ">")
+    #     await message.channel.send("<@" + str(285022682209058827) + ">")
+    #     await message.channel.send("<@" + str(239453836513771531) + ">")
+    #     await message.channel.send("<@" + str(339920949661007873) + ">")
+    #     await message.channel.send("<@" + str(339925689027526656) + ">")
+
+    
 
     if message.content.find("cs") != -1:
         if (re.search(r'\bcs\b', message.content, re.IGNORECASE)):
-            await message.channel.send("<@" + str(340848834479390731) + ">")
-            await message.channel.send("<@" + str(388397664229916684) + ">")
-            await message.channel.send("<@" + str(285022682209058827) + ">")
-            await message.channel.send("<@" + str(239453836513771531) + ">")
-            await message.channel.send("<@" + str(339920949661007873) + ">")
-            await message.channel.send("<@" + str(339925689027526656) + ">")
+            await message.channel.send('SHEEESH')
+            await message.channel.send(f"<@&" + str(429068605120839700) + ">")
+            await message.channel.send(f"\n{random.choice(cs)}")
+            # await message.channel.send("<@" + str(340848834479390731) + ">")
+            # await message.channel.send("<@" + str(388397664229916684) + ">")
+            # await message.channel.send("<@" + str(285022682209058827) + ">")
+            # await message.channel.send("<@" + str(239453836513771531) + ">")
+            # await message.channel.send("<@" + str(339920949661007873) + ">")
+            # await message.channel.send("<@" + str(339925689027526656) + ">")
 
     if message.content.find("fortnite") != -1:
         if (re.search(r'\bfortnite\b', message.content, re.IGNORECASE)):
@@ -224,7 +249,7 @@ async def on_message(message):
                            print("two")
                            await message.channel.send(f'{phrase[1]}\'s mom has been done.')
 
-    me = ["i", 'im', 'i\'m', 'mine', 'my']
+    # me = ["i", 'im', 'i\'m', 'mine', 'my']
 
     if message.content.find('i') != 1:
         if (re.search(r'\bi\b', message.content, re.IGNORECASE)):
