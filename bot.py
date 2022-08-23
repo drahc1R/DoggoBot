@@ -17,8 +17,7 @@ from discord.ext import commands, tasks
 from discord.utils import get
 from itertools import cycle
 import wavelink
-# from apscheduler.schedulers.asyncio import AsyncIOScheduler
-# from apscheduler.triggers.cron import CronTrigger
+
 from dotenv import load_dotenv
 load_dotenv()
 # os.chdir("C:\\Users\\richardbann\\Documents\\PycharmProjects\\doggobot2021")
