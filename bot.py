@@ -1,11 +1,3 @@
-
-
-# to run bot:
-# run: java -jar Lavalink.jar
-# run: bot.py
-
-
-
 from http import client
 import discord
 import random
@@ -46,7 +38,7 @@ guildIDs = []
 # bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
 bot = commands.Bot(command_prefix='!', intents=intents)
-bot.remove_command("help")
+
 status = cycle(['flippin doggo coins', 'with doggo coins', 'generating more doggo coins', 'eating doggo coins', 'throwing doggo coins', 'cs?', 'Minecraft'])
 
 # @bot.command
@@ -108,7 +100,7 @@ guildPrefixes = []
 @bot.event
 async def on_ready():
     change_status.start()
-    
+    #bot.remove_command("help")
     # HTTPS and websocket operations
     bot.loop.create_task(connect_nodes())
     print('Bot is online.')
@@ -350,7 +342,6 @@ async def on_wavelink_track_end(player: CustomPlayer, track: wavelink.Track, rea
 
 
 # commands
-
 
 @bot.command()
 async def connect(ctx):

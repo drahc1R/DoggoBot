@@ -1,5 +1,3 @@
-
-from imp import new_module
 from time import time
 import time
 import discord
@@ -39,30 +37,14 @@ class Commands(commands.Cog):
             self.polls = []
             
 
-    @commands.command(pass_context=True)
-    async def help(self, ctx):
-        author = ctx.message.author
+  #  @commands.group(invoke_without_command=True)
+   # async def help(ctx):
+    #    em = discord.Embed(title="Help", description=(f'Type {get_prefix}help <command> for more info on each command'))
 
-        embed = discord.Embed(
-            color = discord.Color.orange())
+     #   em.add_field(name="Moderation", value="kick, ban, unban, tempban, warn, clear, changeprefix, server, mention")
+      #  em.add_field(name="Fun", value="woofer")
 
-        embed.set_author(name='List of Commands')
-        embed.add_field(name='!help', value='Shows this message', inline=False)
-        embed.add_field(name='!poll /"poll message/" option1 option2 ... option 10', value='Initiates a 20 second poll that can handle at most 10 different options.', inline=False)
-        embed.add_field(name='!connect', value='Invite bot into the voice channel', inline=False)
-        embed.add_field(name='!disconnect', value='Disconnect bot from voice channel', inline=False)
-        embed.add_field(name='!play song_name', value='Play song_name', inline=False)
-        embed.add_field(name='!skip', value='Skip current song', inline=False)
-        embed.add_field(name='!resume', value='Resume current song', inline=False)
-        embed.add_field(name='!pause', value='Pause current song', inline=False)
-        embed.add_field(name='!roulette', value='1/6 chance of dying', inline=False)
-        # embed.add_field(name='!warn name message', value='Warns a user with the given message', inline=False)
-        embed.add_field(name='!clear #', value='Clears the previous # messages', inline=False)
-        embed.add_field(name='!doggo', value='Ask me anything', inline=False)
-        embed.add_field(name='!server', value='Get server details', inline=False)
-
-
-        await ctx.send(author, embed=embed)
+       # await ctx.send(embed=em)
 
 #add bite command
 
@@ -81,8 +63,8 @@ class Commands(commands.Cog):
 
 
     @commands.command(name="poll", aliases=["createpoll"])
-    async def create_poll(self, ctx, question, *options):
-        hours = 20
+    async def create_poll(self, ctx, hours: int, question, *options):
+        
         if len(options) > 10:
             await ctx.send("You can only have 10 options.")
 
@@ -150,108 +132,96 @@ class Commands(commands.Cog):
     #    em.add_field(name= "**Syntax**", value=f'{get_prefix}kick <member> [reason]')
     #    await ctx.send(embed = em)
 
-    # @commands.command()
-    # @commands.has_permissions(kick_members=True)
-    # async def kick(self, ctx, member: commands.MemberConverter, *, reason=None):
-    #     await member.kick(reason=reason)
-    # @kick.error
-    # async def kick_error(self, ctx, error):
-    #     if isinstance(error, commands.MissingPermissions):
-    #         await ctx.send('You are smol pupper!')
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, ctx, member: commands.MemberConverter, *, reason=None):
+        await member.kick(reason=reason)
+    @kick.error
+    async def kick_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send('You are smol pupper!')
 
-    # @commands.command()
-    # @commands.has_permissions(ban_members=True)
-    # async def ban(self, ctx, member: commands.MemberConverter, *, reason=None):
-    #     await member.ban(reason=reason)
-    #     await ctx.send(f'Get banned {member.mention}! :cop:')
-    #     await ctx.guild.ban(member)
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, member: commands.MemberConverter, *, reason=None):
+        await member.ban(reason=reason)
+        await ctx.send(f'Get banned {member.mention}! :cop:')
+        await ctx.guild.ban(member)
 
-    # @ban.error
-    # async def ban_error(self, ctx, error):
-    #     if isinstance(error, commands.MissingPermissions):
-    #         await ctx.send('You are smol pupper!')
+    @ban.error
+    async def ban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send('You are smol pupper!')
 
-    # @commands.command()
-    # @commands.has_permissions(ban_members=True)
-    # async def tempban(self, ctx, member: commands.MemberConverter, *, reason=None, duration: DurationConverter):
-    #     multiplier = {'s': 1, 'm': 60}
-    #     amount, unit = duration
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def tempban(self, ctx, member: commands.MemberConverter, *, reason=None, duration: DurationConverter):
+        multiplier = {'s': 1, 'm': 60}
+        amount, unit = duration
 
-    #     await ctx.guild.ban(member)
-    #     await member.ban(reason=reason)
-    #     await ctx.send(f'Get banned {member.mention}! :cop:')
-    #     await ctx.send(f'{member.mention} has been banned for {amount} {unit}.')
-    #     await asyncio.sleep(amount * multiplier[unit])
-    #     await ctx.guild.unban(member)
+        await ctx.guild.ban(member)
+        await member.ban(reason=reason)
+        await ctx.send(f'Get banned {member.mention}! :cop:')
+        await ctx.send(f'{member.mention} has been banned for {amount} {unit}.')
+        await asyncio.sleep(amount * multiplier[unit])
+        await ctx.guild.unban(member)
 
 
 
-    # @tempban.error
-    # async def tempban_error(self, ctx, error):
-    #     if isinstance(error, commands.MissingPermissions):
-    #         await ctx.send('You are smol pupper!')
+    @tempban.error
+    async def tempban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send('You are smol pupper!')
 
-    # @commands.command()
-    # @commands.has_permissions(ban_members=True)
-    # async def unban(self, ctx, *, member):
-    #     banned_users = await ctx.guild.bans()
-    #     member_name, member_discriminator = member.split('#')
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, *, member):
+        banned_users = await ctx.guild.bans()
+        member_name, member_discriminator = member.split('#')
 
-    #     for ban_entry in banned_users:
-    #         user = ban_entry.user
+        for ban_entry in banned_users:
+            user = ban_entry.user
 
-    #         if (user.name, user.discriminator) == (member_name, member_discriminator):
-    #             await ctx.guild.unban(user)
-    #             await ctx.send(f'Unbanned {user.mention}')
-    #             return
-    # @unban.error
-    # async def unban_error(self, ctx, error):
-    #     if isinstance(error, commands.MissingPermissions):
-    #         await ctx.send('You are smol pupper!')
+            if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user)
+                await ctx.send(f'Unbanned {user.mention}')
+                return
+    @unban.error
+    async def unban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send('You are smol pupper!')
 
-    # @commands.command()
-    # @commands.has_permissions(manage_messages=True)
-    # async def changeprefix(self, ctx, prefix):
-    #     with open('prefixes.json', 'r') as f:
-    #         prefixes = json.load(f)
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def changeprefix(self, ctx, prefix):
+        with open('prefixes.json', 'r') as f:
+            prefixes = json.load(f)
 
-    #         prefixes[str(ctx.guild.id)] = prefix
+            prefixes[str(ctx.guild.id)] = prefix
 
-    #     with open('prefixes.json', 'w') as f:
-    #         json.dump(prefixes, f, indent=4)
-    #     await ctx.send(f'Prefix for typing commands changed to: {prefix}')
+        with open('prefixes.json', 'w') as f:
+            json.dump(prefixes, f, indent=4)
+        await ctx.send(f'Prefix for typing commands changed to: {prefix}')
 
-    # @commands.command()
-    # # MENTIONS A ROLE
-    # async def mention(self, ctx, name='boons'):
-    #     boons = get(ctx.guild.roles, name=name)
-    #     await ctx.send(f"{boons.mention}")
+    @commands.command()
+    # MENTIONS A ROLE
+    async def mention(self, ctx):
+        boons = get(ctx.guild.roles, name='boons')
+        await ctx.send(f"{boons.mention}")
 
-    # @commands.command()
-    # # MENTIONS A ROLE
-    # async def warn(self, ctx, member, warning):
-    #     n = None
-    #     for m in ctx.members:
-    #         if m.name == member:
-    #             n = m
-                
-
-    #     print(f"{n.mention} {warning}")
-    #     print(f"be much scared {n.mention} :scream:")
-
-    #     await ctx.send(f"{n.mention} {warning}")
-    #     await ctx.send(f"ich bin onkeine beep")
-    #     await ctx.send(f"be much scared {n.mention} :scream:")
+    @commands.command()
+    # MENTIONS A ROLE
+    async def warn(self, ctx, member, *, warning):
+        print("yo")
+        await ctx.send(f"{member.mention} {warning}")
 
     @commands.command(aliases=['doggo', 'dog', 'doge'])
     async def woofer(self, ctx, *, question):
         responses = ['fren stahp, you are doin me a scare',
                      'heck',
-                     'Buy my doggo coin.',
-                     'heck.    no','yes','Maybe', ':thinking:']
-
+                     'Invest in doggo coin.',
+                     'anime = :wastebasket:']
         await ctx.send(f'{ctx.author.mention} {random.choice(responses)}')
-
     @woofer.error
     async def woofer_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -263,21 +233,10 @@ class Commands(commands.Cog):
         name = str(ctx.guild.name)
         description = str(ctx.guild.description)
         owner = str(ctx.guild.owner)
-        nsfw = 'Mild'
-        
-        date = str(ctx.guild.created_at)
-        
+        id = str(ctx.guild.id)
+        region = str(ctx.guild.region)
         memberCount = str(ctx.guild.member_count)
-
-        locale = str(ctx.guild.preferred_locale)
-        print('sheesh')
-        
-        premium = ctx.guild.premium_subscribers
-        boosted = []
-        for i in premium:
-            boosted.append(i.name + "#" + i.discriminator)
         icon = str(ctx.guild.icon_url)
-        
         embed = discord.Embed(
             title=name + " Server Information",
             description=description,
@@ -285,11 +244,9 @@ class Commands(commands.Cog):
         )
         embed.set_thumbnail(url=icon)
         embed.add_field(name="Owner", value=owner, inline=True)
-        embed.add_field(name="NSFW Level", value=nsfw, inline=True)
-        embed.add_field(name="Date Created", value=date, inline=True)
-        embed.add_field(name="Region", value=locale, inline=True)
+        embed.add_field(name="ServerID", value=id, inline=True)
+        embed.add_field(name="Region", value=region, inline=True)
         embed.add_field(name="Member Count", value=memberCount, inline=True)
-        embed.add_field(name="Boosted Boosters", value=boosted, inline=True)
 
         await ctx.send(embed=embed)
 
