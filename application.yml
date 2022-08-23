@@ -1,9 +1,9 @@
 server: # REST and WS server
-  port: 443
+  port: 2000
   address: lavalink.oops.wtf
 lavalink:
   server:
-    password: 'www.freelavalink.ga'
+    password: 'www.freehosts.ga'
     sources:
       youtube: true
       bandcamp: true
