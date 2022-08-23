@@ -123,7 +123,6 @@ async def connect_nodes():
         host='lavalink-replit.priyam37yt.repl.co',
         port=443,
         password='maybeiwasboring',
-        secure=True,
     )
 
         
