@@ -1,9 +1,9 @@
 server: # REST and WS server
-  port: 8313
-  address: 194.156.79.56
+  port: 15305
+  address: haruki-lavalink.hatry4.xyz
 lavalink:
   server:
-    password: 'Dionyan~'
+    password: 'harukibot.tk'
     sources:
       youtube: true
       bandcamp: true
