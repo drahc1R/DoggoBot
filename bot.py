@@ -122,7 +122,7 @@ async def connect_nodes():
         bot=bot,
         host='0.0.0.0',
         port=2333,
-        password=password
+        password='piplupwasd1234'
     )
 
         

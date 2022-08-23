@@ -126,11 +126,11 @@ class Commands(commands.Cog):
         if isinstance(error, commands.MissingPermissions):
             await ctx.send('You are smol pupper!')
 
-   @help.command()
-   async def kick(self, ctx):
-       em = discord.Embed(title= "Kick", description="Kicks a member from the server", color = ctx.author.color)
-       em.add_field(name= "**Syntax**", value=f'{get_prefix}kick <member> [reason]')
-       await ctx.send(embed = em)
+    # @help.command()
+    # async def kick(self, ctx):
+    #    em = discord.Embed(title= "Kick", description="Kicks a member from the server", color = ctx.author.color)
+    #    em.add_field(name= "**Syntax**", value=f'{get_prefix}kick <member> [reason]')
+    #    await ctx.send(embed = em)
 
     @commands.command()
     @commands.has_permissions(kick_members=True)

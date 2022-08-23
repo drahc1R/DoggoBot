@@ -9,3 +9,5 @@ multidict==5.2.0
 typing_extensions==4.0.1
 yarl==1.7.2
 python-dotenv==0.20.0
+Wavelink==1.3.2
+Lavalink==3.4
