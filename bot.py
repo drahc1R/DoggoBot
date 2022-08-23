@@ -21,6 +21,7 @@ intents.presences = False
 intents.members = True
 
 token = os.getenv("BOT_TOKEN")
+password = os.getenv("PASSWORD")
 
 prefix = "!"
 prefixes = {}
@@ -102,6 +103,8 @@ guildPrefixes = []
 async def on_ready():
     change_status.start()
     #bot.remove_command("help")
+    # HTTPS and websocket operations
+    bot.loop.create_task(connect_nodes())
     print('Bot is online.')
     # if len(bot.guilds) == 0:
     #     print('empty')
@@ -110,6 +113,18 @@ async def on_ready():
     #         await ctx.send("ID: {}".format(ctx.guild.id))
             # print(ctx.guild.id)
             #guildIDs[i] = guild.id
+
+
+# helper function
+async def connect_nodes():
+    await bot.wait_until_ready()
+    await wavelink.NodePool.create_node(
+        bot=bot,
+        host='0.0.0.0',
+        port=2333,
+        password=password
+    )
+
         
 @bot.event
 async def on_guild_join(guild):
@@ -311,31 +326,17 @@ class CustomPlayer(wavelink.Player):
         self.queue = wavelink.Queue()
 
 
-# HTTPS and websocket operations
-@client.event
-async def on_ready():
-    client.loop.create_task(connect_nodes())
 
-
-# helper function
-async def connect_nodes():
-    await client.wait_until_ready()
-    await wavelink.NodePool.create_node(
-        bot=client,
-        host='0.0.0.0',
-        port=2333,
-        password='youshallnotpass'
-    )
 
 
 # events
 
-@client.event
+@bot.event
 async def on_wavelink_node_ready(node: wavelink.Node):
     print(f'Node: <{node.identifier}> is ready!')
 
 
-@client.event
+@bot.event
 async def on_wavelink_track_end(player: CustomPlayer, track: wavelink.Track, reason):
     if not player.queue.is_empty:
         next_track = player.queue.get()
@@ -344,7 +345,7 @@ async def on_wavelink_track_end(player: CustomPlayer, track: wavelink.Track, rea
 
 # commands
 
-@client.command()
+@bot.command()
 async def connect(ctx):
     vc = ctx.voice_client # represents a discord voice connection
     try:
@@ -358,7 +359,7 @@ async def connect(ctx):
         await ctx.send("The bot is already connected to a voice channel")
 
 
-@client.command()
+@bot.command()
 async def disconnect(ctx):
     vc = ctx.voice_client
     if vc:
@@ -367,7 +368,7 @@ async def disconnect(ctx):
         await ctx.send("The bot is not connected to a voice channel.")
 
 
-@client.command()
+@bot.command()
 async def play(ctx, *, search: wavelink.YouTubeTrack):
     vc = ctx.voice_client
     if not vc:
@@ -395,7 +396,7 @@ async def play(ctx, *, search: wavelink.YouTubeTrack):
         ))
 
 
-@client.command()
+@bot.command()
 async def skip(ctx):
     vc = ctx.voice_client
     if vc:
@@ -411,7 +412,7 @@ async def skip(ctx):
         await ctx.send("The bot is not connected to a voice channel.")
 
 
-@client.command()
+@bot.command()
 async def pause(ctx):
     vc = ctx.voice_client
     if vc:
@@ -423,7 +424,7 @@ async def pause(ctx):
         await ctx.send("The bot is not connected to a voice channel")
 
 
-@client.command()
+@bot.command()
 async def resume(ctx):
     vc = ctx.voice_client
     if vc:
