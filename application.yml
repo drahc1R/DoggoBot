@@ -1,9 +1,9 @@
 server: # REST and WS server
   port: 443
-  address: node1.gglvxd.tk
+  address: lavalink-replit.priyam37yt.repl.co
 lavalink:
   server:
-    password: 'free'
+    password: 'maybeiwasboring'
     sources:
       youtube: true
       bandcamp: true
